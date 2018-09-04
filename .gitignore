@@ -4,3 +4,5 @@
 \.idea/
 
 java/target/
+
+java/src/main/java/\.DS_Store
