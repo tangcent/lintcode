@@ -19,6 +19,8 @@ import java.util.List;
  * Return
  * <p>
  * [(1,3),(4,8),(9,10)]
+ *
+ * @sweettom@foxmail.com
  */
 public class MergeKSortedIntervalListsII {
 
