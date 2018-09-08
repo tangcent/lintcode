@@ -78,6 +78,44 @@ public class MajorityElement {
         return -1;
     }
 
+    public int majorityNumber2(List<Integer> nums) {
+        // write your code here
+
+        int majority = nums.get(0);
+        int count = 1;
+        int size = nums.size();
+        int middleSize = size >> 1;
+        for (int i = 1; i < middleSize; i++) {
+            int num = nums.get(i);
+            if (count == 0) {
+                majority = num;
+                ++count;
+            } else if (num == majority) {
+                ++count;
+            } else {
+                --count;
+            }
+        }
+
+        int rest = size - middleSize;
+        for (int i = middleSize; i < size; i++, rest--) {
+            int num = nums.get(i);
+            if (count == 0) {
+                majority = num;
+                ++count;
+            } else if (num == majority) {
+                if (++count > rest) {
+                    return num;
+                }
+            } else {
+                --count;
+            }
+        }
+
+        return majority;
+
+    }
+
 
     public static void main(String[] args) {
         ArrayList<Integer> list = new ArrayList<>();

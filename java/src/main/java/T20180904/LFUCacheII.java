@@ -65,18 +65,15 @@ public class LFUCacheII {
      */
     public void set(int key, int value) {
         // write your code here
-        if (nodeIndexes.containsKey(key)) {
-            Node oldNode = nodeIndexes.get(key);
+        Node oldNode;
+        if ((oldNode = getNode(key)) != null) {
             oldNode.val = value;
-            oldNode.incr();
-            reset(oldNode);
             return;
         }
 
         if (nodeIndexes.size() == capacity) {
             Node removedNode = head.next;
             remove(removedNode);
-            return;
         }
 
         Node newNode = new Node(key, value);
@@ -135,13 +132,27 @@ public class LFUCacheII {
      * @return: An integer
      */
     public int get(int key) {
-        Node node = nodeIndexes.get(key);
+        Node node = getNode(key);
         if (node == null) {
             return -1;
         } else {
+            return node.val;
+        }
+        // write your code here
+    }
+
+    /*
+     * @param key: An integer
+     * @return: An integer
+     */
+    public Node getNode(int key) {
+        Node node = nodeIndexes.get(key);
+        if (node == null) {
+            return null;
+        } else {
             node.incr();
             reset(node);
-            return node.val;
+            return node;
         }
         // write your code here
     }

@@ -58,11 +58,9 @@ public class LFUCache {
      */
     public void set(int key, int value) {
         // write your code here
-
-        if (nodes.containsKey(key)) {
-            Node oldNode = nodes.get(key);
+        Node oldNode;
+        if ((oldNode = getNode(key)) != null) {
             oldNode.val = value;
-            oldNode.incr();
             return;
         }
 
@@ -106,6 +104,24 @@ public class LFUCache {
                 findLeast();
             }
             return node.val;
+        }
+        // write your code here
+    }
+
+    /*
+     * @param key: An integer
+     * @return: An integer
+     */
+    public Node getNode(int key) {
+        Node node = nodes.get(key);
+        if (node == null) {
+            return null;
+        } else {
+            node.incr();
+            if (key == leastNodeKey) {//update leastNode
+                findLeast();
+            }
+            return node;
         }
         // write your code here
     }
