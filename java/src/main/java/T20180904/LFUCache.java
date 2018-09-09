@@ -110,7 +110,7 @@ public class LFUCache {
 
     /*
      * @param key: An integer
-     * @return: An integer
+     * @return: return the node of the key if it is present otherwise null
      */
     public Node getNode(int key) {
         Node node = nodes.get(key);
@@ -123,7 +123,6 @@ public class LFUCache {
             }
             return node;
         }
-        // write your code here
     }
 
     private void findLeast() {
