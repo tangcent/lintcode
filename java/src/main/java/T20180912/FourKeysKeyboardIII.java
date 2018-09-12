@@ -32,7 +32,7 @@ import java.util.Stack;
  * We can at most get 9 A's on screen by pressing following key sequence:
  * A, A, A, Ctrl A, Ctrl C, Ctrl V, Ctrl V
  */
-public class FourKeysKeyboardII {
+public class FourKeysKeyboardIII {
 
     /**
      * @param N: an integer
@@ -40,7 +40,7 @@ public class FourKeysKeyboardII {
      */
     public int maxA(int N) {
         Nodes nodes = new Nodes(N);
-        Node curr = new InitNode(0, 0, 0);
+        Node curr = new Node(0, 0, 0);
         while (curr != null) {
             nodes.addNode(curr.A(N));
             nodes.addNode(curr.CtrlV(N));
@@ -82,14 +82,14 @@ public class FourKeysKeyboardII {
                         break;
                     } else if (node.screen >= addNode.screen && node.buffer >= addNode.buffer) {
                         //no change
-                        CommonNode.back(addNode);
+                        Node.back(addNode);
                         return;
                     }
                 }
 
                 if (node.screen >= addNode.screen && node.buffer >= addNode.buffer && node.actions <= addNode.actions) {
                     //no change
-                    CommonNode.back(addNode);
+                    Node.back(addNode);
                     return;
                 }
 
@@ -128,83 +128,39 @@ public class FourKeysKeyboardII {
         }
     }
 
-    public static abstract class Node {
-        protected int screen;//num of A in screen
+    static class Node {
+        private int screen;//num of A in screen
 
-        protected int buffer;//num of A in buffer
+        private int buffer;//num of A in buffer
 
-        protected int actions;//count of actions
+        private int actions;//count of actions
 
-        //Key 1 (A)
-        abstract Node A(int n);
-
-        //粘贴
-        //Key 4: (Ctrl-V)
-        abstract Node CtrlV(int n);
-
-        //Key 2-3-4: (Ctrl-A),(Ctrl-C),(Ctrl-V):
-        abstract Node CtrlACV(int n);
-    }
-
-    class InitNode extends Node {
-        public InitNode(int screen, int buffer, int actions) {
+        public Node(int screen, int buffer, int actions) {
             this.screen = screen;
             this.buffer = buffer;
             this.actions = actions;
         }
 
         //Key 1 (A)
-        @Override
-        public Node A(int n) {
-//            if (actions + 1 > n) {
-//                return null;
-//            }
-            return new InitNode(screen + 1, buffer, actions + 1);
-        }
-
-        //粘贴
-        //Key 4: (Ctrl-V)
-        @Override
-        public Node CtrlV(int n) {
-            return null;
-        }
-
-        //Key 2-3-4: (Ctrl-A),(Ctrl-C),(Ctrl-V):
-        @Override
-        public Node CtrlACV(int n) {
-            if (screen == 0 || actions + 3 > n) {
-                return null;
-            }
-            //screen->buffer
-            //screen*2->screen
-            return new CommonNode(screen << 1, screen, actions + 3);
-        }
-    }
-
-    static class CommonNode extends Node {
-
-        public CommonNode(int screen, int buffer, int actions) {
-            this.screen = screen;
-            this.buffer = buffer;
-            this.actions = actions;
-        }
-
-        @Override
-        Node A(int n) {
+        private Node A(int n) {
+            // if (actions + 1 > n) {
+            //     return null;
+            // }
             return of(screen + 1, buffer, actions + 1);
         }
 
-        @Override
-        Node CtrlV(int n) {
-            if (actions + 1 > n) {
+        //粘贴
+        //Key 4: (Ctrl-V)
+        private Node CtrlV(int n) {
+            if (buffer == 0 || actions + 1 > n) {
                 return null;
             }
             return of(screen + buffer, buffer, actions + 1);
         }
 
-        @Override
-        Node CtrlACV(int n) {
-            if (actions + 3 > n) {
+        //Key 2-3-4: (Ctrl-A),(Ctrl-C),(Ctrl-V):
+        private Node CtrlACV(int n) {
+            if (screen == 0 || actions + 3 > n) {
                 return null;
             }
             //screen->buffer
@@ -212,43 +168,28 @@ public class FourKeysKeyboardII {
             return of(screen << 1, screen, actions + 3);
         }
 
-        static Stack<CommonNode> commonNodePool = new Stack<>();
 
-        static CommonNode of(int screen, int buffer, int actions) {
+        static Stack<Node> nodePool = new Stack<>();
+
+        static Node of(int screen, int buffer, int actions) {
             try {
-                CommonNode commonNode = commonNodePool.pop();
-                commonNode.screen = screen;
-                commonNode.buffer = buffer;
-                commonNode.actions = actions;
-                return commonNode;
+                Node node = nodePool.pop();
+                node.screen = screen;
+                node.buffer = buffer;
+                node.actions = actions;
+                return node;
             } catch (Exception e) {
-                return new CommonNode(screen, buffer, actions);
+                return new Node(screen, buffer, actions);
             }
-//            return new CommonNode(screen, buffer, actions);
         }
 
-        static void back(Node commonNode) {
-            try {
-                commonNodePool.push((CommonNode) commonNode);
-            } catch (Exception ignored) {
-            }
+        static void back(Node node) {
+            nodePool.push(node);
         }
     }
 
-
     public static void main(String[] args) {
-//        FourKeysKeyboard fourKeysKeyboard = new FourKeysKeyboard();
-//        FourKeysKeyboardII fourKeysKeyboardII = new FourKeysKeyboardII();
-//        for (int i = 1; i < 20; i++) {
-//            int a = maxA(i);
-//            int b = fourKeysKeyboardII.maxA(i);
-//            System.out.println("1->" + a + ",2->" + b);
-//            if (a != b) {
-//                System.out.println(i);
-//                break;
-//            }
-//        }
-        System.out.println(new FourKeysKeyboardII().maxA(9));
+        System.out.println(new FourKeysKeyboardIII().maxA(9));
     }
 
 }

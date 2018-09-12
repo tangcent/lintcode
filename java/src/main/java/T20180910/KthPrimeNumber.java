@@ -28,7 +28,6 @@ public class KthPrimeNumber {
         primes = findPrimeToArray(100000);
     }
 
-
     static int[] findPrimeToArray(int max) {
         List<Integer> primes = new ArrayList<>();
         boolean[] nums = new boolean[max];
