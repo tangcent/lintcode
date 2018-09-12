@@ -86,10 +86,10 @@ public class KthSmallestInLexicographicalOrderIII {
                 int diff = maxLevel - level;
                 count = lenOf(diff);
             } else if (i == currentFullLevelMax) {
+                //残缺的
                 int left = i;
                 int right = i;
                 int length = 1;
-                //残缺的
                 if (level < fullLevel) {
                     int diff = fullLevel - level;
                     length = p10(diff);
@@ -101,9 +101,9 @@ public class KthSmallestInLexicographicalOrderIII {
                     if (left > maxLeft || right > maxRight) {
                         return count;
                     }
-                    left = m10(left);
                     right = m10(right) + 9;
                     if (right > max) {
+                        left = m10(left);
                         if (left > max) {
                             return count;
                         } else {
