@@ -14,6 +14,8 @@ package T20180915;
  * E 0 W E
  * 0 E 0 0
  * return 3. (Placing a bomb at (1,1) kills 3 enemies)
+ * <p>
+ * <p>
  */
 public class BombEnemyVI {
 
@@ -51,6 +53,7 @@ public class BombEnemyVI {
                 for (int y = 0; y < yLength; y++) {
                     switch (line[y]) {
                         case '0':
+                            nods[y].addZero();
                             canBom = true;
                             break;
                         case 'W':
@@ -128,19 +131,25 @@ public class BombEnemyVI {
     }
 
     private class Node {
-        int max;//当前本列最大数
+        int max = -1;//当前本列最大数
         int eCount;//当前本列上方E的数量
 
         private void resetForW() {
-            max = 0;
+            max = -1;
             eCount = 0;
         }
 
         private void addE() {
-            if (max != 0) {
+            if (max != -1) {
                 max += 1;
             }
             ++eCount;
+        }
+
+        private void addZero() {
+            if (max == -1) {
+                max = eCount;
+            }
         }
 
         private void updateForCount(int count) {
@@ -160,12 +169,11 @@ public class BombEnemyVI {
     public static void main(String[] args) {
 
         char[][] grid = new char[][]{
-                "WWWWWWWWWW".toCharArray(),
-                "EEEEEEEEEE".toCharArray(),
-                "WWWWWEWWWW".toCharArray(),
-                "EE000000E0".toCharArray(),
-                "WWWWW0WWWW".toCharArray(),
-                "EEEEEEEEEE".toCharArray()
+                "0".toCharArray(),
+                "E".toCharArray(),
+                "E".toCharArray(),
+                "E".toCharArray(),
+                "E".toCharArray(),
         };
 
         System.out.println(new BombEnemyVI().maxKilledEnemies(grid));
