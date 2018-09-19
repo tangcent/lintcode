@@ -66,6 +66,35 @@ public class RecommendFriendsV {
         return likely;
     }
 
+    private static class IntSet {
+
+        int[] sets = new int[16];
+        public static final int setMask = 0x3e0;
+        public static final int indexMask = 0x1f;
+
+        private void add(int val) {
+            int set = (val & setMask) >> 5;
+            sets[set] = sets[set] | (1 << (val & indexMask));
+        }
+
+        private boolean tryAddFailed(int val) {
+            int set = (val & setMask) >> 5;
+            int newValue = sets[set] | (1 << (val & indexMask));
+            if (sets[set] == newValue) {
+                return true;
+            } else {
+                sets[set] = newValue;
+                return false;
+            }
+        }
+
+        private boolean contain(int val) {
+            int set = (val & setMask) >> 5;
+            return (sets[set] & (1 << (val & indexMask))) != 0;
+        }
+
+    }
+
 //    private static class IntSet {
 //
 //        long set1;//0-63
@@ -156,34 +185,6 @@ public class RecommendFriendsV {
 //
 //    }
 
-    private static class IntSet {
-
-        int[] sets = new int[16];
-        public static final int setMask = 0x3e0;
-        public static final int indexMask = 0x1f;
-
-        private void add(int val) {
-            int set = (val & setMask) >> 5;
-            sets[set] = sets[set] | (1 << (val & indexMask));
-        }
-
-        private boolean tryAddFailed(int val) {
-            int set = (val & setMask) >> 5;
-            int newValue = sets[set] | (1 << (val & indexMask));
-            if (sets[set] == newValue) {
-                return true;
-            } else {
-                sets[set] = newValue;
-                return false;
-            }
-        }
-
-        private boolean contain(int val) {
-            int set = (val & setMask) >> 5;
-            return (sets[set] & (1 << (val & indexMask))) != 0;
-        }
-
-    }
 
     public static void main(String[] args) {
         IntSet intSet = new IntSet();
