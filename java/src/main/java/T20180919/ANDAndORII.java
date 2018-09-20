@@ -9,7 +9,6 @@ package T20180919;
  * maximum AND sum: In n numbers, take a number of numbers(cannot take nothing), The largest number after the AND operation.
  * minimum AND sum: In n numbers, take a number of numbers(cannot take nothing), The smallest number after the AND operation.
  * 1 <= n <= 1000000，0 <= nums[i] <= 2^32 - 1.
- * Have you met this question in a real interview?
  * Example
  * Give n = 3, nums = [1, 2, 3], return 7.
  * <p>
