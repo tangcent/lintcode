@@ -35,7 +35,7 @@ public class KthPrimeNumber {
             if (nums[i])
                 continue;
             primes.add(i);
-            for (int j = i * 2; j < max; j += i) {
+            for (int j = i << 1; j < max; j += i) {
                 nums[j] = true;
             }
         }
