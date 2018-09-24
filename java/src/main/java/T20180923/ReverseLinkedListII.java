@@ -65,15 +65,10 @@ public class ReverseLinkedListII {
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
         ListNode node = head;
-        node.next = new ListNode(2);
-        node = node.next;
-        node.next = new ListNode(3);
-        node = node.next;
-        node.next = new ListNode(4);
-        node = node.next;
-        node.next = new ListNode(5);
-        node = node.next;
-        node.next = new ListNode(6);
+        for (int i = 2; i < 7; i++) {
+            node.next = new ListNode(i);
+            node = node.next;
+        }
 
         node = new ReverseLinkedListII().reverseBetween(head, 2, 3);
         while (node != null) {
