@@ -1,4 +1,4 @@
-#lintcode
+# lintcode
 https://www.lintcode.com/
-#my profile
+# my profile
 https://www.lintcode.com/user/tom11
